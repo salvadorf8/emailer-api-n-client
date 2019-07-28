@@ -18,6 +18,7 @@ class Header extends React.Component {
 				return (
 					<div>
 						<Payments />
+						Credits:{this.props.auth.credits}
 						<a className='ui button' href='/api/logout'>
 							Logout With Google
 						</a>
@@ -43,6 +44,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+	console.log('header.js mapStateToProps: ', state);
 	return { auth: state.auth };
 };
 

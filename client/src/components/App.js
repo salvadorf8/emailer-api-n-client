@@ -10,6 +10,7 @@ import { fetchUser } from '../actions';
 
 class App extends React.Component {
 	componentDidMount = () => {
+		console.log('componentDidMount in App.js: ');
 		this.props.fetchUser();
 	};
 
@@ -32,7 +33,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state.auth);
+	console.log('App.js mapStateToProps: ', state);
 	return { auth: state.auth };
 };
 

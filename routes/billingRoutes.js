@@ -1,14 +1,13 @@
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
+const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = (app) => {
-	app.post('/api/stripe', async (req, res) => {
-		// This validation works if only used with
-		if (!req.user) {
-			// 401 means unauthorized/forbidden
-			return res.status(401).send({ error: 'You must log in!' });
-		}
-
+	// excellent note:
+	// remember: requireLogin is saying, hey express everytime someone makes a request to this route,
+	// 			 here is a reference to this requireLogin function to run whenever a request comes in.
+	// NOTE: all these app.post app.get ect..., take an arbituary number of arguments
+	app.post('/api/stripe', requireLogin, async (req, res) => {
 		const charge = await stripe.charges.create({
 			amount: 500,
 			currency: 'usd',

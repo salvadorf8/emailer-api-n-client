@@ -8,8 +8,9 @@ export const fetchUser = () => async (dispatch) => {
 };
 
 export const handleToken = (token) => async (dispatch) => {
-	console.log(token);
+	console.log('action creator: ', token);
 	const response = await axios.post('/api/stripe', token);
+	console.log('action creator after axios: ', response.data);
 	//reusing the FETCH_USER because its the same data, only difference is updated credits if credit card was approved
 	dispatch({ type: FETCH_USER, payload: response.data });
 };

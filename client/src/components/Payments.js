@@ -14,12 +14,7 @@ class Payments extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	console.log("SF - I'm here: ", state);
-	return {};
-};
-
 export default connect(
-	mapStateToProps,
+	null,
 	{ handleToken }
 )(Payments);
