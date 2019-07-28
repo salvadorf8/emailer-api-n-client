@@ -37,5 +37,20 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
+// code required for production... PART I
+if (process.env.NODE_ENV === 'production') {
+	// ### ensure Express will serve up production assets like our main.js file, or main.css file ###
+	// this line basically says, if a request comes in for anything and application doesnt understand,
+	// then go to this client/build location and look there, if it finds a match, then use that file instead
+	app.use(express.static('client/build'));
+	// ### ensure Express will serve up the index.html file if it doesnt recognize the route ###
+	// this line basically says, if we dont know what this route is and doesnt match anything, serve it the
+	// index.html located in the client/build side
+	const path = require('path');
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
