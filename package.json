@@ -17,6 +17,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"sendgrid": "^5.2.3",
 		"body-parser": "^1.19.0",
 		"concurrently": "^4.1.1",
 		"cookie-session": "^1.3.3",

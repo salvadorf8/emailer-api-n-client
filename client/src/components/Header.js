@@ -17,8 +17,8 @@ class Header extends React.Component {
 			default:
 				return (
 					<div>
+						{this.props.auth.credits} credits
 						<Payments />
-						Credits:{this.props.auth.credits}
 						<a className='ui button' href='/api/logout'>
 							Logout With Google
 						</a>
