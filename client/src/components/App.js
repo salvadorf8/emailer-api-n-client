@@ -18,14 +18,12 @@ class App extends React.Component {
 		return (
 			<div className='ui container'>
 				<BrowserRouter>
-					<div>
-						<Header />
-						<Switch>
-							<Route path='/' exact component={Landing} />
-							<Route path='/Surveys/' exact component={Dashboard} />
-							<Route path='/Surveys/new' exact component={SurveyNew} />
-						</Switch>
-					</div>
+					<Header />
+					<Switch>
+						<Route path='/' exact component={Landing} />
+						<Route path='/Surveys/' exact component={Dashboard} />
+						<Route path='/Surveys/new' exact component={SurveyNew} />
+					</Switch>
 				</BrowserRouter>
 			</div>
 		);

@@ -10,18 +10,25 @@ class Header extends React.Component {
 				return <div className='ui button'>Logged out</div>;
 			case false:
 				return (
-					<a className='ui button' href='/auth/google'>
+					<a className='ui item' href='/auth/google'>
 						Login With Google
 					</a>
 				);
 			default:
 				return (
-					<div>
-						{this.props.auth.credits} credits
-						<Payments />
-						<a className='ui button' href='/api/logout'>
-							Logout With Google
-						</a>
+					<div className='right item'>
+						<div>
+							<Payments />
+						</div>
+						<div className='item'>
+							credits:
+							<div className='ui medium green label'>{this.props.auth.credits}</div>
+						</div>
+						<div>
+							<a className='link item' href='/api/logout'>
+								Logout
+							</a>
+						</div>
 					</div>
 				);
 		}
@@ -29,15 +36,13 @@ class Header extends React.Component {
 
 	render() {
 		return (
-			<div className='ui large secondary menu'>
+			<div className='ui orange inverted large secondary menu'>
 				<div className='left item'>
-					<Link className='ui header' to={this.props.auth ? '/surveys' : '/'}>
+					<Link className='item' to={this.props.auth ? '/surveys' : '/'}>
 						<h2>Emaily</h2>
 					</Link>
 				</div>
-				<div className='right item'>
-					<div>{this.renderContent()}</div>
-				</div>
+				{this.renderContent()}
 			</div>
 		);
 	}
