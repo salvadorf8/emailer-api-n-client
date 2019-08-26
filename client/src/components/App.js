@@ -4,34 +4,32 @@ import { connect } from 'react-redux';
 
 import Header from './Header';
 import Landing from './Landing';
-import SurveyNew from './SurveyNew';
+import SurveyNew from './surveys/SurveyNew';
 import Dashboard from './Dashboard';
 import { fetchUser } from '../actions';
 
 class App extends React.Component {
 	componentDidMount = () => {
-		console.log('componentDidMount in App.js: ');
 		this.props.fetchUser();
 	};
 
 	render() {
 		return (
-			<div className='ui container'>
-				<BrowserRouter>
+			<BrowserRouter>
+				<div className='ui container'>
 					<Header />
 					<Switch>
 						<Route path='/' exact component={Landing} />
 						<Route path='/Surveys/' exact component={Dashboard} />
 						<Route path='/Surveys/new' exact component={SurveyNew} />
 					</Switch>
-				</BrowserRouter>
-			</div>
+				</div>
+			</BrowserRouter>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
-	console.log('App.js mapStateToProps: ', state);
 	return { auth: state.auth };
 };
 
