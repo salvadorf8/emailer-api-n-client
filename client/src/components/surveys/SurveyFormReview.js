@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import formFields from './formFields';
 //intresting syntax to get all actions rather than just one at a time as been done
 import * as actions from '../../actions';
 
-const SurveyReview = ({ onCancel, formValues, submitSurvey }) => {
+const SurveyReview = ({ onCancel, formValues, submitSurvey, history }) => {
     const reviewFields = _.map(formFields, ({ label, name }) => {
         return (
             <div className='field' key={name}>
@@ -34,7 +35,7 @@ const SurveyReview = ({ onCancel, formValues, submitSurvey }) => {
                 <div className='right item'>
                     <button
                         className='ui right labeled icon teal button'
-                        onClick={() => submitSurvey(formValues)}>
+                        onClick={() => submitSurvey(formValues, history)}>
                         <i className='envelope icon' />
                         Send Survey
                     </button>
@@ -51,4 +52,4 @@ const mapStateToProps = (state) => {
 export default connect(
     mapStateToProps,
     actions
-)(SurveyReview);
+)(withRouter(SurveyReview));

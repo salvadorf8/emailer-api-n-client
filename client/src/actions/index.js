@@ -14,8 +14,11 @@ export const handleToken = (token) => async (dispatch) => {
 };
 
 //this is not a named export
-export const submitSurvey = (values) => async (dispatch) => {
+export const submitSurvey = (values, history) => async (dispatch) => {
     const response = await axios.post('/api/surveys', values);
+
+    history.push('/surveys');
+
     // If you recall, the reason we're calling FETCH_USER, is on the server side, we send email, save user, deduct points, then return updated user
     dispatch({ type: FETCH_USER, payload: response.data });
 };
