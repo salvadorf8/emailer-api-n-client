@@ -17,32 +17,34 @@ module.exports = (app) => {
 
     //the package localtunnel gives a url and use to defined in sendgrid's configuration page
     app.post('/api/surveys/webhooks', (req, res) => {
-        // map through each possible sendgrid requests
-        const events = _.map(req.body, ({ url, email }) => {
-            // extract the path from the entire URL all we care about is ex: /api/surveys/5971/yes
-            const pathname = new URL(url).pathname;
-            // using path-parser, instantiate a Path object and declare variables surveyId, and choice
-            const p = new Path('/api/surveys/:surveyId/:choice');
-            // using path-parser, call the test method, pass the path, to test if the values exists to be assigned to each variable
-            const match = p.test(pathname);
-            // if data was missing it will return null, thus skip to next request
-            if (match) {
-                return {
-                    email,
-                    surveyId: match.surveyId,
-                    choice: match.choice
-                };
-            }
-            // using the compact function from lodash, remove the request elements that are undefined
-            const compactEvents = _.compact(events);
-            // using the uniqBy function from lodash, remove duplicate request message elements
-            const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId');
+        // using path-parser, instantiate a Path object and declare variables surveyId, and choice
+        const p = new Path('/api/surveys/:surveyId/:choice');
 
-            // tell sendgrid everything is ok, because sendgrid will continue to send duplicate events
-            res.send({});
-        });
+        // map through each possible sendgrid requests
+        const events = _.chain(req.body)
+            .map(({ url, email }) => {
+                // extract the path from the entire URL all we care about is ex: /api/surveys/5971/yes
+                // using path-parser, call the test method, pass the path, to test if the values exists to be assigned to each variable
+                const match = p.test(new URL(url).pathname);
+                // if data was missing it will return null, thus skip to next request
+                if (match) {
+                    return {
+                        email,
+                        surveyId: match.surveyId,
+                        choice: match.choice
+                    };
+                }
+            })
+            // using the compact function from lodash, remove the request elements that are undefined
+            .compact()
+            // using the uniqBy function from lodash, remove duplicate request message elements
+            .uniqBy('email', 'surveyId')
+            .value();
 
         console.log('SF - My finalized results: ', events);
+
+        // tell sendgrid everything is ok, because sendgrid will continue to send duplicate events
+        res.send({});
     });
 
     app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
