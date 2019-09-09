@@ -11,17 +11,24 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = (app) => {
-    app.get('/api/surveys/thanks', (req, res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req, res) => {
         res.send('Thanks for voting!');
     });
 
     //the package localtunnel gives a url and use to defined in sendgrid's configuration page
     app.post('/api/surveys/webhooks', (req, res) => {
+        // console.log(req.body);
         // using path-parser, instantiate a Path object and declare variables surveyId, and choice
         const p = new Path('/api/surveys/:surveyId/:choice');
 
+        // chain multiple events together
         // map through each possible sendgrid requests
-        const events = _.chain(req.body)
+        // see note inside inner function
+        // using the compact function from lodash, remove the request elements that are undefined
+        // using the uniqBy function from lodash, remove duplicate request message elements
+        // execute the following mongo DB query to update the recipients values
+        // when sending query to mongo DB use _id, not id
+        _.chain(req.body)
             .map(({ url, email }) => {
                 // extract the path from the entire URL all we care about is ex: /api/surveys/5971/yes
                 // using path-parser, call the test method, pass the path, to test if the values exists to be assigned to each variable
@@ -35,13 +42,24 @@ module.exports = (app) => {
                     };
                 }
             })
-            // using the compact function from lodash, remove the request elements that are undefined
             .compact()
-            // using the uniqBy function from lodash, remove duplicate request message elements
             .uniqBy('email', 'surveyId')
+            .each(({ surveyId, email, choice }) => {
+                Survey.updateOne(
+                    {
+                        _id: surveyId,
+                        recipients: {
+                            $elemMatch: { email: email, responded: false }
+                        }
+                    },
+                    {
+                        $inc: { [choice]: 1 },
+                        $set: { 'recipients.$.responded': true },
+                        lastResponded: Date.now()
+                    }
+                ).exec();
+            })
             .value();
-
-        console.log('SF - My finalized results: ', events);
 
         // tell sendgrid everything is ok, because sendgrid will continue to send duplicate events
         res.send({});
@@ -54,7 +72,9 @@ module.exports = (app) => {
             title: title,
             subject: subject,
             body: body,
-            recipients: recipients.split(',').map((email) => ({ email })),
+            recipients: recipients
+                .split(',')
+                .map((email) => ({ email: email.trim() })),
             _user: req.user.id,
             dateSent: Date.now()
         });
