@@ -25,7 +25,7 @@ module.exports = (app) => {
 
     //the package localtunnel gives a url and use to defined in sendgrid's configuration page
     app.post('/api/surveys/webhooks', (req, res) => {
-        // console.log(req.body);
+        console.log(req.body);
         // using path-parser, instantiate a Path object and declare variables surveyId, and choice
         const p = new Path('/api/surveys/:surveyId/:choice');
 
