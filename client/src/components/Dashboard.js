@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SurveyList from './surveys/SurveyList';
 
 class Dashboard extends React.Component {
     render() {
         return (
             <div className='ui container'>
-                Dashboard
+                <SurveyList />
                 <div className='ui right aligned container'>
                     <Link
                         className='ui circular orange icon large button'
