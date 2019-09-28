@@ -38,11 +38,15 @@ module.exports = (app) => {
         // when sending query to mongo DB use _id, not id
         _.chain(req.body)
             .map(({ url, email }) => {
+                console.log(url);
+                console.log(email);
                 // extract the path from the entire URL all we care about is ex: /api/surveys/5971/yes
                 // using path-parser, call the test method, pass the path, to test if the values exists to be assigned to each variable
                 const match = p.test(new URL(url).pathname);
                 // if data was missing it will return null, thus skip to next request
                 if (match) {
+                    console.log('made it here', match.surveyId);
+                    console.log('made it here', match.choice);
                     return {
                         email,
                         surveyId: match.surveyId,
