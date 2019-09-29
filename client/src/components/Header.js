@@ -40,7 +40,7 @@ class Header extends React.Component {
         return (
             <div className='ui orange inverted large secondary menu'>
                 <Link className='item' to={this.props.auth ? '/surveys' : '/'}>
-                    <h2>Emaily</h2>
+                    <h2>AskYourBuddies.net</h2>
                 </Link>
                 {this.renderContent()}
             </div>
