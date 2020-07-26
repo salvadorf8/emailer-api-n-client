@@ -1,6 +1,6 @@
 export default [
-    { label: 'This record needs a title', name: 'title' },
-    { label: 'Subject line', name: 'subject' },
-    { label: 'Detail your survey, example: "Did you enjoy our show last night?"', name: 'body' },
-    { label: 'Recipient List (one or more emails - comma delimited)', name: 'recipients' }
+    { label: 'Title', name: 'title' },
+    { label: 'Subject', name: 'subject' },
+    { label: 'A detailed survey (example: "Did you enjoy our show last night?")', name: 'body' },
+    { label: 'Comma delimited recipient list (example: email_1@gmail.com, email_2@gmail.com)', name: 'recipients' }
 ];

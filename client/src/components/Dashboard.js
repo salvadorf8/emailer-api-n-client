@@ -27,13 +27,9 @@ class Dashboard extends React.Component {
 
         return (
             <div className='ui container'>
-                <div className='ui secondary menu'>
-                    <div className='item'>
-                        <span className='ui label'>Use the following test credit card:</span>
-                        <span className='ui label'>CC:</span>
-                        <span className='ui item'>4242 4242 4242 4242</span>
-                        <span className='ui label'>CW:</span>
-                        <span className='ui item'>123</span>
+                <div className='ui row'>
+                    <div className='ui centered column grid'>
+                        <span className='ui label red centered'>Use this test credit card number to purchase credits: 4242 4242 4242 4242 - 123</span>
                     </div>
                 </div>
 
