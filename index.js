@@ -3,12 +3,18 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+
+// requiring keys based on environment
 const keys = require('./config/keys');
+
+// requiring all mongoose models
 require('./models/user');
 require('./models/Survey');
 require('./services/passport');
 
-mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
+setTimeout(async () => {
+    await mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+}, 2000);
 
 const app = express();
 
@@ -41,17 +47,19 @@ require('./routes/surveyRoutes')(app);
 
 // code required for production... PART I
 if (process.env.NODE_ENV === 'production') {
-	// ### ensure Express will serve up production assets like our main.js file, or main.css file ###
-	// this line basically says, if a request comes in for anything and application doesnt understand,
-	// then go to this client/build location and look there, if it finds a match, then use that file instead
-	app.use(express.static('client/build'));
-	// ### ensure Express will serve up the index.html file if it doesnt recognize the route ###
-	// this line basically says, if we dont know what this route is and doesnt match anything, serve it the
-	// index.html located in the client/build side
-	const path = require('path');
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-	});
+    // ### ensure Express will serve up production assets like our main.js file, or main.css file ###
+    // this line basically says, if a request comes in for anything and application doesnt understand,
+    // then go to this client/build location and look there, if it finds a match, then use that file instead
+    app.use(express.static('client/build'));
+    // ### ensure Express will serve up the index.html file if it doesnt recognize the route ###
+    // this line basically says, if we dont know what this route is and doesnt match anything, serve it the
+    // index.html located in the client/build side
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+} else {
+    console.log('starting in Development mode');
 }
 
 const PORT = process.env.PORT || 5000;

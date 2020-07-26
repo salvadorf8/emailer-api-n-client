@@ -20,13 +20,7 @@ class Header extends React.Component {
                 return (
                     <div className='right menu'>
                         <div className='item'>
-                            <Payments />
-                        </div>
-                        <div className='item'>
-                            credits:
-                            <div className='ui medium green label'>
-                                {this.props.auth.credits}
-                            </div>
+                            <Payments credits={this.props.auth.credits} />
                         </div>
                         <div className='ui item'>
                             <a href='/api/logout'>Logout</a>
@@ -40,7 +34,7 @@ class Header extends React.Component {
         return (
             <div className='ui orange inverted large secondary menu'>
                 <Link className='item' to={this.props.auth ? '/surveys' : '/'}>
-                    <h2>AskYourBuddies.net</h2>
+                    <h2>SURVEYGEN.net</h2>
                 </Link>
                 {this.renderContent()}
             </div>

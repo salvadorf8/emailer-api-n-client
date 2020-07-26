@@ -2,9 +2,9 @@ const _ = require('lodash');
 const Path = require('path-parser').default;
 const { URL } = require('url');
 const mongoose = require('mongoose');
+
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
-
 const Mailer = require('../services/Mailer');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
@@ -25,7 +25,6 @@ module.exports = (app) => {
 
     //the package localtunnel gives a url and use to defined in sendgrid's configuration page
     app.post('/api/surveys/webhooks', (req, res) => {
-        console.log(req.body);
         // using path-parser, instantiate a Path object and declare variables surveyId, and choice
         const p = new Path('/api/surveys/:surveyId/:choice');
 
@@ -38,15 +37,11 @@ module.exports = (app) => {
         // when sending query to mongo DB use _id, not id
         _.chain(req.body)
             .map(({ url, email }) => {
-                console.log(url);
-                console.log(email);
                 // extract the path from the entire URL all we care about is ex: /api/surveys/5971/yes
                 // using path-parser, call the test method, pass the path, to test if the values exists to be assigned to each variable
                 const match = p.test(new URL(url).pathname);
                 // if data was missing it will return null, thus skip to next request
                 if (match) {
-                    console.log('made it here', match.surveyId);
-                    console.log('made it here', match.choice);
                     return {
                         email,
                         surveyId: match.surveyId,
@@ -84,9 +79,7 @@ module.exports = (app) => {
             title: title,
             subject: subject,
             body: body,
-            recipients: recipients
-                .split(',')
-                .map((email) => ({ email: email.trim() })),
+            recipients: recipients.split(',').map((email) => ({ email: email.trim() })),
             _user: req.user.id,
             dateSent: Date.now()
         });

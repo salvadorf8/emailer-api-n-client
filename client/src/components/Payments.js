@@ -7,19 +7,13 @@ import { handleToken } from '../actions';
 class Payments extends Component {
     render() {
         return (
-            <StripeCheckout
-                name='Emaily'
-                description='$5 for 5 email credits'
-                amount={500}
-                token={token => this.props.handleToken(token)}
-                stripeKey={process.env.REACT_APP_STRIPE_KEY}>
-                <button className='ui positive button'>Add Credits</button>
+            <StripeCheckout name='SURVEYGEN' description='$5 for 5 email credits' amount={500} token={(token) => this.props.handleToken(token)} stripeKey={process.env.REACT_APP_STRIPE_KEY}>
+                <button className='ui green button mini'>
+                    Add Credits &#10144; <strong>{this.props.credits}</strong>
+                </button>
             </StripeCheckout>
         );
     }
 }
 
-export default connect(
-    null,
-    { handleToken }
-)(Payments);
+export default connect(null, { handleToken })(Payments);

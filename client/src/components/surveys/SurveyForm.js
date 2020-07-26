@@ -18,26 +18,14 @@ import formFields from './formFields';
 class SurveyForm extends React.Component {
     renderFields() {
         return _.map(formFields, ({ label, name }) => {
-            return (
-                <Field
-                    key={name}
-                    name={name}
-                    label={label}
-                    type='text'
-                    component={SurveyField}
-                />
-            );
+            return <Field key={name} name={name} label={label} type='text' component={SurveyField} />;
         });
     }
 
     render() {
         return (
-            <div>
-                <form
-                    className='ui fluid form'
-                    onSubmit={this.props.handleSubmit(
-                        this.props.onSurveySubmit
-                    )}>
+            <div className='ui container'>
+                <form className='ui form' onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
                     {this.renderFields()}
                     <div className='ui secondary menu'>
                         <div className='item'>
@@ -46,7 +34,7 @@ class SurveyForm extends React.Component {
                             </Link>
                         </div>
                         <div className='right item'>
-                            <button className='ui right labeled icon teal button'>
+                            <button className='ui right labeled icon green button'>
                                 <i className='right arrow icon' />
                                 Next
                             </button>
@@ -58,7 +46,7 @@ class SurveyForm extends React.Component {
     }
 }
 
-const validate = formValues => {
+const validate = (formValues) => {
     const errors = {};
 
     //note: recipients is not just a name given, its the name used in formFields.js
@@ -77,10 +65,12 @@ const validate = formValues => {
     // 	errors.body = 'You must provide a body';
     // }
 
+    // lodash .forEach is usually used because it stops if returned, vs js .forEach it loops through all
     _.forEach(formFields, ({ name }) => {
+        console.log(name);
         // referencing a value at runtime, on the fly, no need to create a const or get the key, just the value on the fly
         if (!formValues[name]) {
-            errors[name] = 'Value is required';
+            return (errors[name] = 'Value is required');
         }
     });
 
