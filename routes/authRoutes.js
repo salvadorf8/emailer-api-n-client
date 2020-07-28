@@ -14,7 +14,18 @@ module.exports = (app) => {
         res.redirect('/');
     });
 
-    app.get('/api/current_user', (req, res) => {
-        res.send(req.user);
+    app.get('/api/current_user', async (req, res) => {
+        let aUser = req.user;
+
+        if (req.user) {
+            try {
+                req.user.lastaccessed = Date.now();
+                aUser = await req.user.save();
+            } catch (err) {
+                res.status(422).send(err);
+            }
+        }
+
+        res.send(aUser);
     });
 };

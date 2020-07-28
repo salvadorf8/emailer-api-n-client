@@ -38,7 +38,7 @@ passport.use(
             // does-not-exist, creating a new instance of a user and saving it to mongoDB
             // dont forget to call done, since this is asynchronous, use the .then function
             // two different instances here, one the "new User", second inside the .then "(user)"
-            const user = await new User({ googleId: profile.id }).save();
+            const user = await new User({ googleId: profile.id, email: profile.emails[0].value }).save();
             done(null, user);
         }
     )

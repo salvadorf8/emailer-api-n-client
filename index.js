@@ -13,7 +13,11 @@ require('./models/Survey');
 require('./services/passport');
 
 setTimeout(async () => {
-    await mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    } catch (err) {
+        console.log(err);
+    }
 }, 2000);
 
 const app = express();
