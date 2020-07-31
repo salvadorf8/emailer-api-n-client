@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { deleteSurvey } from '../../actions';
 
 class SurveyList extends React.Component {
     renderSurveys = () => {
@@ -14,6 +16,9 @@ class SurveyList extends React.Component {
                         <div className='extra content'>
                             {survey.yes >= 1 ? <div className='ui label green'>Yes: {survey.yes}</div> : <div className='ui label'>Yes: {survey.yes}</div>}
                             {survey.no >= 1 ? <div className='ui label red'>No: {survey.no}</div> : <div className='ui label'>No: {survey.no}</div>}
+                            <div className='ui circular green icon medium right floated button' onClick={() => this.props.deleteSurvey(survey)}>
+                                <i className='minus icon' />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -26,4 +31,4 @@ class SurveyList extends React.Component {
     }
 }
 
-export default SurveyList;
+export default connect(null, { deleteSurvey })(SurveyList);

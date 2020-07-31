@@ -25,10 +25,9 @@ module.exports = (app) => {
     });
 
     app.get('/api/surveys/:surveyId/:choice', (req, res) => {
-        res.send('Thanks for voting!');
+        res.send('Thanks for voting! We recieved your response, you may close this page.');
     });
 
-    //the package localtunnel gives a url and use to defined in sendgrid's configuration page
     app.post('/api/surveys/webhooks', (req, res) => {
         // using path-parser, instantiate a Path object and declare variables surveyId, and choice
         const p = new Path('/api/surveys/:surveyId/:choice');
@@ -106,6 +105,16 @@ module.exports = (app) => {
         } catch (err) {
             res.status(422).send(err);
         }
+    });
+
+    app.delete('/api/survey/', async (req, res) => {
+        const surveys = Survey.deleteOne({ _id: req.body.survey._id }, (err, result) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(result);
+            }
+        });
     });
 };
 

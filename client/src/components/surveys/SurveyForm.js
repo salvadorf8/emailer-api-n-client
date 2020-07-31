@@ -67,7 +67,6 @@ const validate = (formValues) => {
 
     // lodash .forEach is usually used because it stops if returned, vs js .forEach it loops through all
     _.forEach(formFields, ({ name }) => {
-        console.log(name);
         // referencing a value at runtime, on the fly, no need to create a const or get the key, just the value on the fly
         if (!formValues[name]) {
             return (errors[name] = 'Value is required');

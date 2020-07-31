@@ -1,3 +1,5 @@
+import './survey-form-review.styles.scss';
+
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -19,7 +21,7 @@ const SurveyReview = ({ onCancel, formValues, submitSurvey, history, auth }) => 
 
     const confirmExistingCreditsAndSubmit = () => {
         if (auth.credits === 0) {
-            return alert('Purchase credits before submitting a survey');
+            return alert('Credits are required before submitting a survey.  Purchase using this test credit card 4242 4242 4242 4242 - 123');
         }
 
         submitSurvey(formValues, history);
@@ -29,7 +31,69 @@ const SurveyReview = ({ onCancel, formValues, submitSurvey, history, auth }) => 
         <div className='ui container'>
             <div className='ui form'>
                 <h4>Please confirm your entries</h4>
-                <div className='ui raised very padded text container segment'>{reviewFields}</div>
+                <div className='ui raised very padded text container segment'>
+                    {
+                        <div className='ui equal width center aligned padded grid'>
+                            <div className='row '>
+                                <div className='sixteen wide column'>
+                                    <div className='ui  grid'>
+                                        <div className='two column row '>
+                                            <div className='two wide column left aligned'>
+                                                <img className='ui avatar image' />
+                                            </div>
+                                            <div className='fourteen wide column left aligned '>
+                                                <div className=' row'>
+                                                    <div className='column'>from: no-reply@surveygen.net</div>
+                                                </div>
+                                                <div className=' row'>
+                                                    <div className='column'>subject: {formValues.subject}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className=' column'>
+                                    <img src='https://images.unsplash.com/photo-1543118141-8598f6bfbc0a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=976&q=80' width='260' height='390' border='0' alt='' />
+                                </div>
+                                <div className=' column'>
+                                    <div className='ui equal width center aligned padded grid'>
+                                        <div className=' row'>
+                                            <div className='column'></div>
+                                        </div>
+                                        <div className=' row'>
+                                            <div className='column'>
+                                                <div className='h2'>{formValues.title}</div>
+                                            </div>
+                                        </div>
+                                        <div className=' row'>
+                                            <div className='column'>
+                                                <div className='text'>{formValues.body}</div>
+                                            </div>
+                                        </div>
+                                        <div className='row'>
+                                            <div className=' column'>
+                                                <div className='text-button'>
+                                                    <div className='link-white'>
+                                                        <span className='link-white'>YES</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className=' column'>
+                                                <div className='text-button'>
+                                                    <div className='link-white'>
+                                                        <span className='link-white'>NO</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
                 <div className='ui secondary menu'>
                     <div className='item'>
                         <button className='ui left labeled icon green button' onClick={onCancel}>
