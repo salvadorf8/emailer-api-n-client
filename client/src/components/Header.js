@@ -19,7 +19,7 @@ class Header extends React.Component {
             default:
                 return (
                     <div className='right menu'>
-                        <div className='item'>
+                        <div className='ui item'>
                             <Payments credits={this.props.auth.credits} />
                         </div>
                         <div className='ui item'>
@@ -33,7 +33,7 @@ class Header extends React.Component {
     render() {
         return (
             <div className='ui orange inverted large secondary menu'>
-                <Link className='item' to={this.props.auth ? '/surveys' : '/'}>
+                <Link className='ui item' to={this.props.auth ? '/surveys' : '/'}>
                     <h2>SURVEY&#9997;GEN.net</h2>
                 </Link>
                 {this.renderContent()}
